@@ -20,6 +20,7 @@ export default {
         if(env) return log[env]()
         return log[process.env.NODE_ENV || 'development']()
     },
-    'gitClient_ID' : process.env.CLIENT_ID || 'f5ec97973b3d62c9f8de',
-    'gitClient_Secret' : process.env.CLIENT_SECRET || 'f3821e1ef9c060b0057a88112a4b538321c11854'
+    'gitClient_ID' : process.env.CLIENT_ID || 'af9b78be587b59df0970',
+    'gitClient_Secret' : process.env.CLIENT_SECRET || '061cd5816547abc0866b9f10cbf88853542a6f4e',
+    'gitAccessToken' : process.env.ACCESS_TOKEN || '7b2c1a19aae7677145941f24df12ba77ea4d5f0b'
 }
