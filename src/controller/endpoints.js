@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import _ from 'lodash'
 import util from 'util'
+import urlConstructor from '../util/index'
 
 import axios from 'axios'
 
@@ -14,22 +15,12 @@ export default({ config }) => {
     // GitHub API
     const git = config.github
 
-    const baseUrl = 'https://api.github.com/search/code'
-    const query = 'q=realtimebusapp'
-    const auth = `client_id=${config.gitClient_ID}&client_secret=${config.gitClient_Secret}`
-    const type = 'type=code'
-    const scope = 'in:file'
-    const extension = 'extension%3A.js'
-    const language = 'language:js'
-    const repo = 'repo:jquery/jquery'
-    const user = 'user:organyx'
-    const perPage = 'per_page=25'
-    const sortBy = 'sort: score'
+
     
     // const url = `${baseUrl}?${query}+${scope}+${language}+${repo}+${user}+${perPage}`
     // const url = `${baseUrl}+${query}+${extension}+${type}+${perPage}`
     // const url = `${baseUrl}${query}&${type}&${perPage}`
-    const url = `${baseUrl}?${query}`
+
     // const url = `${baseUrl}&${query}&${auth}`
     // 'https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery+user:organyx'
     // const url = `https://api.github.com/users/organyx?${auth}`
@@ -65,31 +56,17 @@ export default({ config }) => {
         log.info(res)
     })
 
-    api.get('/', (req, res) => {
-        // res.json({ response: 'Hello World' })
-        // res.send('Hello World')
+    api.get('/:query', (req, res) => {
+        const baseUrl = 'https://api.github.com/search/code'
+        let query = `q=${req.params.query}`
+        // let url = queryConstructor(query)
+        let url = new urlConstructor(baseUrl, query).getUrl()
         axios.defaults.headers.common['Authorization'] = `token ${config.gitAccessToken}`
         axios.get(url)
             .then(function(response) {
                 let hitsOut = []
                 let items = response.data.items 
-                // console.log(items)
-                // res.json({ items: items })
-                // console.log(typeof items === 'object')
-                // res.json({ response: items })
-                // for(let i = 0; i < items.length; i++) {
-                //     // hits[i] = {'owner_name' : i.repository.owner.login }
-                //     console.log(i.repository.owner.login)
-                // }
-
-                let item = items[0]
-                console.log(JSON.stringify(item.name))
                 for (const key of Object.keys(items)) {
-                    // console.log(key, items[key])
-                    // console.log(key, items[key]['name'])
-                    // console.log(key, items[key]['repository']['name'])
-                    // console.log(key, items[key]['repository']['owner']['login'])
-                    // console.log(key, items[key]['score'])
                     let hit = {
                         'owner_name': items[key]['repository']['owner']['login'],
                         'repository_name' : items[key]['repository']['name'],
@@ -99,29 +76,8 @@ export default({ config }) => {
                     hitsOut.push(hit)
                 }
                 _.sortBy(hitsOut, 'score')
-                console.log(hitsOut)
-                
-                // for(var item in items) {
-                //     // console.log(item['name'])
-                    
-                //     // if(items.hasOwnProperty(item)) {
-                //     //     console.log(item + ' , ' + items[item] + '\n')
-                //     //     // console.log(_.get(item, 'name'))
-                //     //     for(var i in item) {
-                //     //         console.log(_.has(item, i))
-                            
-                //     //     }
-                //     // }
-                //     if(_.has(item[1], 'name')) {
-                //         console.log(_.get(item, 'name'))
-                //         console.log(Object.keys(item['name']))
-                //     }
-                // }
-
-                // res.json({ hits: hits })
-                // log.info(response.data)
-                // res.send(response)
-                res.json({ items : items })
+                // log.info(hitsOut)
+                res.json({ hits : hitsOut })
             })
             .catch(function (error) {
                 // if(error) {
@@ -144,7 +100,6 @@ export default({ config }) => {
                 }
                 log.fatal(error.config)
             })
-        // log.info('Hello World')
     })
 
     // api.get('/', (req, res) => {
@@ -158,5 +113,24 @@ export default({ config }) => {
     //         console.log(JSON.stringify(res))
     //     })
     // })
+
+    function queryConstructor(queryParam) {
+        const baseUrl = 'https://api.github.com/search/code'
+        const query = queryParam || 'q=realtimebusapp'
+        // const auth = `client_id=${config.gitClient_ID}&client_secret=${config.gitClient_Secret}`
+        const type = 'type=code'
+        const scope = 'in:file'
+        const extension = 'extension%3A.js'
+        const language = 'language:js'
+        const repo = 'repo:jquery/jquery'
+        const user = 'user:organyx'
+        const perPage = 'per_page=25'
+        const sortBy = 'sort: score'
+        let url = `${baseUrl}?${query}`
+    
+        return url
+    }
+
     return api
 }
+
