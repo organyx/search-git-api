@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import _ from 'lodash'
 import util from 'util'
-import urlConstructor from '../util/index'
+import { UrlBuilder, Pagination } from '../util/index'
 
 import axios from 'axios'
 
@@ -15,10 +15,6 @@ export default({ config }) => {
     // GitHub API
     const git = config.github
 
-
-    
-    // const url = `${baseUrl}?${query}+${scope}+${language}+${repo}+${user}+${perPage}`
-    // const url = `${baseUrl}+${query}+${extension}+${type}+${perPage}`
     // const url = `${baseUrl}${query}&${type}&${perPage}`
 
     // const url = `${baseUrl}&${query}&${auth}`
@@ -59,8 +55,7 @@ export default({ config }) => {
     api.get('/:query', (req, res) => {
         const baseUrl = 'https://api.github.com/search/code'
         let query = `q=${req.params.query}`
-        // let url = queryConstructor(query)
-        let url = new urlConstructor(baseUrl, query).getUrl()
+        let url = new UrlBuilder(baseUrl, query).getUrl()
         axios.defaults.headers.common['Authorization'] = `token ${config.gitAccessToken}`
         axios.get(url)
             .then(function(response) {
@@ -75,6 +70,10 @@ export default({ config }) => {
                     }
                     hitsOut.push(hit)
                 }
+                let pages = new Pagination(hitsOut, 1, 10)
+                hitsOut = pages.changePage(1)
+                // Filter out Null results
+                hitsOut = hitsOut.filter((value) => { return value != null })
                 _.sortBy(hitsOut, 'score')
                 // log.info(hitsOut)
                 res.json({ hits : hitsOut })
@@ -113,23 +112,6 @@ export default({ config }) => {
     //         console.log(JSON.stringify(res))
     //     })
     // })
-
-    function queryConstructor(queryParam) {
-        const baseUrl = 'https://api.github.com/search/code'
-        const query = queryParam || 'q=realtimebusapp'
-        // const auth = `client_id=${config.gitClient_ID}&client_secret=${config.gitClient_Secret}`
-        const type = 'type=code'
-        const scope = 'in:file'
-        const extension = 'extension%3A.js'
-        const language = 'language:js'
-        const repo = 'repo:jquery/jquery'
-        const user = 'user:organyx'
-        const perPage = 'per_page=25'
-        const sortBy = 'sort: score'
-        let url = `${baseUrl}?${query}`
-    
-        return url
-    }
 
     return api
 }
