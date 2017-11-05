@@ -2,8 +2,8 @@ class UrlBuilder {
 
     /**
      * Constructor for Url setup.
-     * @param {*} baseUrl 
-     * @param {*} query 
+     * @param {*} baseUrl Provider Url
+     * @param {*} query Search Query
      */
     constructor(baseUrl, query) {
         this.baseUrl = baseUrl

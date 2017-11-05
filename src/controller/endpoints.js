@@ -51,10 +51,20 @@ export default({ config }) => {
     api.get('/callback', (req, res) => {
         log.info(res)
     })
-
-    api.get('/:query', (req, res) => {
+    /**
+     * Main End-Point
+     * @param {*} ':query' Search query
+     * @param {*} ':page_num' Page number
+     * @param {*} ':per_page' Page limit
+     * @param {*} ':sort_by' Sorting criteria
+     */
+    api.get('/:query/:page_num/:per_page/:sort_by', (req, res) => {
         const baseUrl = 'https://api.github.com/search/code'
         let query = `q=${req.params.query}`
+        console.log(req.params)
+        let page_num = req.params.page_num
+        let per_page = req.params.per_page
+        let sort_by = req.params.sort_by
         let url = new UrlBuilder(baseUrl, query).getUrl()
         axios.defaults.headers.common['Authorization'] = `token ${config.gitAccessToken}`
         axios.get(url)
@@ -70,11 +80,11 @@ export default({ config }) => {
                     }
                     hitsOut.push(hit)
                 }
-                let pages = new Pagination(hitsOut, 1, 10)
-                hitsOut = pages.changePage(1)
+                let pages = new Pagination(hitsOut, 1, per_page)
+                hitsOut = pages.changePage(page_num)
                 // Filter out Null results
                 hitsOut = hitsOut.filter((value) => { return value != null })
-                _.sortBy(hitsOut, 'score')
+                _.sortBy(hitsOut, sort_by)
                 // log.info(hitsOut)
                 res.json({ hits : hitsOut })
             })
@@ -111,6 +121,12 @@ export default({ config }) => {
     //         }
     //         console.log(JSON.stringify(res))
     //     })
+    // })
+
+    // api.get('/new_provider/:provider', (req, res) => {
+    //     let provider = req.params.provider
+    //     console.log(provider)
+    //     res.send(provider)
     // })
 
     return api
