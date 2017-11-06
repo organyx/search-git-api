@@ -13,17 +13,17 @@ const log = {
     }
 }
 
-const github = new GitHubApi({
-    debug: true,
-    host: 'api.github.com',
-    protocol: 'https'
-})
+// const github = new GitHubApi({
+//     debug: true,
+//     host: 'api.github.com',
+//     protocol: 'https'
+// })
 
-github.authenticate({
-    type: 'oauth',
-    key: process.env.CLIENT_ID,
-    secret: process.env.CLIENT_SECRET
-})
+// github.authenticate({
+//     type: 'oauth',
+//     key: process.env.CLIENT_ID,
+//     secret: process.env.CLIENT_SECRET
+// })
 
 export default {
     'port' :  process.env.PORT || 3000,
