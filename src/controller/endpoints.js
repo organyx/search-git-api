@@ -13,7 +13,7 @@ export default({ config }) => {
     const log = config.log()
 
     // GitHub API
-    const git = config.github
+    // const git = config.github
 
     // const url = `${baseUrl}${query}&${type}&${perPage}`
 

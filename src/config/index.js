@@ -36,5 +36,5 @@ export default {
     'gitClient_ID' : process.env.CLIENT_ID,
     'gitClient_Secret' : process.env.CLIENT_SECRET,
     'gitAccessToken' : process.env.ACCESS_TOKEN,
-    'github' : github
+    
 }
