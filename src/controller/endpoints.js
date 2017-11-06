@@ -12,9 +12,6 @@ export default({ config }) => {
     // Logger
     const log = config.log()
 
-    // GitHub API
-    // const git = config.github
-
     // const url = `${baseUrl}${query}&${type}&${perPage}`
 
     // const url = `${baseUrl}&${query}&${auth}`
