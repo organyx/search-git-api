@@ -35,6 +35,6 @@ export default {
     },
     'gitClient_ID' : process.env.CLIENT_ID || 'af9b78be587b59df0970',
     'gitClient_Secret' : process.env.CLIENT_SECRET || '061cd5816547abc0866b9f10cbf88853542a6f4e',
-    'gitAccessToken' : process.env.ACCESS_TOKEN || '7b2c1a19aae7677145941f24df12ba77ea4d5f0b',
+    'gitAccessToken' : process.env.ACCESS_TOKEN || '2286f98974a65213062134f5726bf8cb32c865f8',
     'github' : github
 }

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import _ from 'lodash'
 import util from 'util'
-import { UrlBuilder, Pagination } from '../util/index'
+import { UrlBuilder, Pagination } from '../util'
 
 import axios from 'axios'
 
@@ -49,7 +49,7 @@ export default({ config }) => {
     //     })
 
     api.get('/callback', (req, res) => {
-        log.info(res)
+        log.debug(res)
     })
     /**
      * Main End-Point
@@ -85,7 +85,7 @@ export default({ config }) => {
                 // Filter out Null results
                 hitsOut = hitsOut.filter((value) => { return value != null })
                 _.sortBy(hitsOut, sort_by)
-                // log.info(hitsOut)
+                // log.debug(hitsOut)
                 res.json({ hits : hitsOut })
             })
             .catch(function (error) {
