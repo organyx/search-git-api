@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import _ from 'lodash'
-import util from 'util'
 import { UrlBuilder, Pagination } from '../util'
 
 import axios from 'axios'
@@ -56,39 +55,51 @@ export default({ config }) => {
      * @param {*} ':sort_by' Sorting criteria
      */
     api.get('/:query/:page_num/:per_page/:sort_by', (req, res) => {
+        // Provider URL
         const baseUrl = 'https://api.github.com/search/code'
+        // Search query 
         let query = `q=${req.params.query}`
-        console.log(req.params)
+        // Page number
         let page_num = req.params.page_num
+        // Page Limit
         let per_page = req.params.per_page
+        // Sorting criteria
         let sort_by = req.params.sort_by
+        log.debug(req.params)
+        // New Url builder
         let url = new UrlBuilder(baseUrl, query).getUrl()
+        // Setting new Auth Header to make requests to GitHub
         axios.defaults.headers.common['Authorization'] = `token ${config.gitAccessToken}`
         axios.get(url)
             .then(function(response) {
+                // Setting up array of Hits
                 let hitsOut = []
+                // Getting the data items
                 let items = response.data.items 
+                // Looping through every item
                 for (const key of Object.keys(items)) {
+                    // Creating new Hit on every iteration
                     let hit = {
                         'owner_name': items[key]['repository']['owner']['login'],
                         'repository_name' : items[key]['repository']['name'],
                         'file_name' : items[key]['name'],
                         'score' : items[key]['score']
                     }
+                    // Adding new Hit to array of Hits
                     hitsOut.push(hit)
                 }
+                // Setting up Pagination
                 let pages = new Pagination(hitsOut, 1, per_page)
+                // Selecting the page of the results
                 hitsOut = pages.changePage(page_num)
                 // Filter out Null results
                 hitsOut = hitsOut.filter((value) => { return value != null })
+                // Sort remaining Hits
                 _.sortBy(hitsOut, sort_by)
                 // log.debug(hitsOut)
                 res.json({ hits : hitsOut })
             })
             .catch(function (error) {
-                // if(error) {
-                //     log.fatal(error)
-                // }
                 if (error.response) {
                   // The request was made and the server responded with a status code
                   // that falls out of the range of 2xx
