@@ -21,8 +21,8 @@ const github = new GitHubApi({
 
 github.authenticate({
     type: 'oauth',
-    key: process.env.CLIENT_ID || 'af9b78be587b59df0970',
-    secret: process.env.CLIENT_SECRET || '061cd5816547abc0866b9f10cbf88853542a6f4e'
+    key: process.env.CLIENT_ID,
+    secret: process.env.CLIENT_SECRET
 })
 
 export default {
@@ -33,8 +33,8 @@ export default {
         if(env) return log[env]()
         return log[process.env.NODE_ENV || 'development']()
     },
-    'gitClient_ID' : process.env.CLIENT_ID || 'af9b78be587b59df0970',
-    'gitClient_Secret' : process.env.CLIENT_SECRET || '061cd5816547abc0866b9f10cbf88853542a6f4e',
-    'gitAccessToken' : process.env.ACCESS_TOKEN || '2286f98974a65213062134f5726bf8cb32c865f8',
+    'gitClient_ID' : process.env.CLIENT_ID,
+    'gitClient_Secret' : process.env.CLIENT_SECRET,
+    'gitAccessToken' : process.env.ACCESS_TOKEN,
     'github' : github
 }
