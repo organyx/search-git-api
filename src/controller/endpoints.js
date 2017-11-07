@@ -12,6 +12,13 @@ export default({ config }) => {
     const log = config.log()
 
     /**
+     * Default End-Point
+     */
+    api.get('/', (req, res) => {
+        res.send('<h1>Default route</h1><br/><h1>Example routes: </h1><h4>Searching with just query for Angular in all of code: </h4><a href="https://search-git-api.herokuapp.com/api/v1/search/angular">https://search-git-api.herokuapp.com/api/v1/search/angular</a><h4>Changing the page for the same result set: </h4><a href="https://search-git-api.herokuapp.com/api/v1/search/angular/2">https://search-git-api.herokuapp.com/api/v1/search/angular/2</a><h4>Changing the page limit for the same result set: </h4><a href="https://search-git-api.herokuapp.com/api/v1/search/angular/2/10">https://search-git-api.herokuapp.com/api/v1/search/angular/2/10</a><h4>Sorting the same result set*: </h4><a href="https://search-git-api.herokuapp.com/api/v1/search/angular/2/score">https://search-git-api.herokuapp.com/api/v1/search/angular/2/score</a><h5>* Accepts the parameter but does not actually sort</h5>')
+    }) 
+
+    /**
      * End-Point with All parameters: Query, Page number, Page Limit and Sorting
      * @param {*} ':query' Search query
      * @param {*} ':page_num' Page number
