@@ -9,6 +9,6 @@ let router = express()
 // Connect internal middleware
 router.use(middleware({ config }))
 // API routes v1 
-router.use('/endpoints', endpoints({ config }))
+router.use('/search', endpoints({ config }))
 
 export default router

@@ -8,6 +8,7 @@ class UrlBuilder {
     constructor(baseUrl, query) {
         this.baseUrl = baseUrl
         this.query = query
+        // Search criteria from GitHub API. Not used currently.
         this.type = 'type=code'
         this.scope = 'in:file'
         this.extension = 'extension%3A.js'
@@ -40,24 +41,6 @@ class Pagination {
     }
 
     /**
-     * Function to change the page results from current one to the previous one.
-     */
-    prevPage() {
-        if(this.currentPage > 1) {
-            this.currentPage--
-            this.changePage(this.currentPage)
-        }
-    }
-    /**
-     * Function to change the page results from current one to the next one.
-     */
-    nextPage() {
-        if(this.currentPage < this.numPages()) {
-            this.currentPage++
-            this.changePage(this.currentPage)
-        }
-    }
-    /**
      * Function to change the page for displayed results.
      * @param {*} page Set page for current Hit set.
      */
@@ -72,6 +55,7 @@ class Pagination {
 
         return this.hitsOut
     }
+
     /**
      * Function to calculate the number of pages based on amount of overall Hits and set page limit.
      */

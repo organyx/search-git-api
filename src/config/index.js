@@ -2,13 +2,13 @@ import bunyan from 'bunyan'
 
 const log = {
     development: () => {
-        return bunyan.createLogger({ name: 'AleksTheDev_development', level: 'debug' })
+        return bunyan.createLogger({ name: 'Search-API_development', level: 'debug' })
     },
     production: () => {
-        return bunyan.createLogger({ name: 'AleksTheDev-production', level: 'info' })
+        return bunyan.createLogger({ name: 'Search-API_production', level: 'info' })
     },
     test: () => {
-        return bunyan.createLogger({ name: 'AleksTheDev-test', level: 'fatal' })
+        return bunyan.createLogger({ name: 'Search-API_test', level: 'fatal' })
     }
 }
 

@@ -11,42 +11,6 @@ export default({ config }) => {
     // Logger
     const log = config.log()
 
-    // const url = `${baseUrl}${query}&${type}&${perPage}`
-
-    // const url = `${baseUrl}&${query}&${auth}`
-    // 'https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery+user:organyx'
-    // const url = `https://api.github.com/users/organyx?${auth}`
-
-    // axios.get(`https://github.com/login/oauth/authorize?client_id=${config.gitClient_ID}`)
-    //         .then(function(response) {
-    //             console.log(response)
-    //         })
-    //         .catch(function(error) {
-    //             console.log(error)
-    //         })
-
-    // axios.get(`https://api.github.com/users/organyx?${auth}`)
-    //     .then(function(response) {
-    //         console.log(response.data)
-    //     })
-    //     .catch(function(error) {
-    //         console.log(error)
-    //     })
-
-    // axios.post('https://github.com/login/oauth/access_token', {
-    //     client_id: config.gitClient_ID,
-    //     client_secret: config.gitClient_Secret
-    // })
-    //     .then(function(response) {
-    //         console.log(response)
-    //     })
-    //     .catch(function(error) {
-    //         console.log(error)
-    //     })
-
-    api.get('/callback', (req, res) => {
-        log.debug(res)
-    })
     /**
      * Main End-Point
      * @param {*} ':query' Search query
@@ -118,24 +82,6 @@ export default({ config }) => {
                 log.fatal(error.config)
             })
     })
-
-    // api.get('/', (req, res) => {
-    //     git.search.code({
-    //         q: 'AleksTheDev',
-    //         per_page: 10
-    //     }, function(err, res) {
-    //         if (err) {
-    //             console.log(err) 
-    //         }
-    //         console.log(JSON.stringify(res))
-    //     })
-    // })
-
-    // api.get('/new_provider/:provider', (req, res) => {
-    //     let provider = req.params.provider
-    //     console.log(provider)
-    //     res.send(provider)
-    // })
 
     return api
 }
