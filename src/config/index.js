@@ -22,5 +22,5 @@ export default {
     },
     'gitClient_ID' : process.env.CLIENT_ID,
     'gitClient_Secret' : process.env.CLIENT_SECRET,
-    'gitAccessToken' : process.env.ACCESS_TOKEN
+    'gitAccessToken' : process.env.ACCESS_TOKEN || '61fceaca33599f5d22a68e33f0e99c31d1ea4b06'
 }
